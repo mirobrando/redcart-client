@@ -171,7 +171,7 @@ abstract class Module {
         ]);
         $response = $this->redcart->call($this->module, $method, $parameters, $options);
         $this->repository->notifyEvent('responseMessage', $response);
-
+        return $response;
     }
 
     /**
