@@ -36,8 +36,6 @@ abstract class Model
         return $result;
     }
 
-
-
     /**
      * @param array $types
      * @param $resultType

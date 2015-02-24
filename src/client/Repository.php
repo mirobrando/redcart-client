@@ -4,6 +4,7 @@ namespace mirolabs\redcart\client;
 
 
 use mirolabs\collection\ArrayList;
+use mirolabs\redcart\client\interfaces\Event;
 
 class Repository
 {
@@ -23,13 +24,23 @@ class Repository
     private $modules = [];
 
     /**
+     * @var Event
+     */
+    private $event;
+
+
+    /**
      * @param $key
      * @param $https
+     * @param $event
      */
-    public function __construct($key, $https)
+    public function __construct($key, $https, $event = null)
     {
         $this->key = $key;
         $this->https = $https;
+        if ($event instanceof Event) {
+            $this->event = $event;
+        }
     }
 
 
@@ -70,5 +81,17 @@ class Repository
     public function getObject($type, $resultType)
     {
         return Model::getObject($type, $resultType, $this);
+    }
+
+
+    /**
+     * @param $name
+     * @param $message
+     */
+    public function notifyEvent($name, $message)
+    {
+        if (!is_null($this->event)) {
+            $this->event->notify($name, $message);
+        }
     }
 }

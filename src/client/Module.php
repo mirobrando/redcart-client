@@ -163,7 +163,15 @@ abstract class Module {
      */
     protected function sendMethod($method, $parameters, $options = null)
     {
-        return $this->redcart->call($this->module, $method, $parameters, $options);
+        $this->repository->notifyEvent('beforeSend', [
+            "module" => $this->module,
+            "method" => $method,
+            "parameters" => $parameters,
+            "options" => $options
+        ]);
+        $response = $this->redcart->call($this->module, $method, $parameters, $options);
+        $this->repository->notifyEvent('responseMessage', $response);
+
     }
 
     /**
