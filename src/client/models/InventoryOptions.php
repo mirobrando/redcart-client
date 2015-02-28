@@ -44,7 +44,10 @@ class InventoryOptions extends Model
      */
     public function setQuantity($quantity)
     {
-        $this->quantity = $quantity;
+        $this->quantity = (int)$quantity;
+        if ($this->quantity < 0) {
+            throw new \Exception('Invalid quantity value');
+        }
     }
 
     /**

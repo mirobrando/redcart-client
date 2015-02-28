@@ -29,6 +29,8 @@ abstract class Module {
 
     protected $responseIndex = "";
 
+    protected $bindModel = false;
+
     /**
      * @var Client
      */
@@ -111,6 +113,9 @@ abstract class Module {
             $response = $this->sendMethod('add', $params->toArray(), $options);
             if ($response['count'] != $list->size()) {
                 throw new \Exception('Invalid Request');
+            }
+            if ($this->bindModel) {
+                return $list;
             }
             for ($i = 0; $i < $response['count']; $i++) {
                 $list->get($i)->setProductsId($response[$this->indexName][$i]);
